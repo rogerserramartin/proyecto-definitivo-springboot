@@ -1,0 +1,63 @@
+services:
+  postgres:
+    container_name: postgres-2
+    image: postgres
+    environment:
+      POSTGRES_USER: rogerserra
+      POSTGRES_PASSWORD: rogerserra
+      PGDATA: /data/postgres
+    volumes:  # aqui es donde se guardan los datos para que un contenedor sea persistente cada vez que arranca
+      - postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - postgres
+    restart: unless-stopped
+
+    # si tuviera la bbdd fraud en otro contenedor, tendria que crear otro contenedor, copiando de la linea 2 a la 15 y cambiando los parametros
+
+    #postgres:
+     # container_name: postgres-fraud
+      #image: postgres
+      #environment:
+       # POSTGRES_USER: rogerserra
+       # POSTGRES_PASSWORD: rogerserra
+       # PGDATA: /data/postgres
+      #volumes: # aqui es donde se guardan los datos para que un contenedor sea persistente cada vez que arranca
+      #  - postgres:/data/postgres
+      #ports:
+       # - "5432:5432"  <<------ cambiar el puerto
+     # networks:
+      #  - postgres
+     # restart: unless-stopped
+
+
+
+    # pero como iba a quedarme sin RAM, no lo hare
+
+
+
+  # microservicio de pgadmin para ver la base de datos con una interfaz grafica
+  pgadmin:
+    container_name: pgadmin-2
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+    ports:
+      - "5050:80"
+    networks:
+      - postgres
+    restart: unless-stopped
+
+# para que los contenedores hablen entre si; recordar que no usen ips usan nombres
+networks:
+  postgres:
+    driver: bridge
+
+volumes:
+  postgres:
+  pgadmin:

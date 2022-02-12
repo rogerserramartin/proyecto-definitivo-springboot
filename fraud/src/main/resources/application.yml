@@ -1,0 +1,17 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: fraud
+  datasource:
+    password: rogerserra
+    url: jdbc:postgresql://localhost:5432/fraud  # esta deberia ser una BBDD diferente, pero como iba a quedarme sin RAM, no lo hago
+    username: rogerserra
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: true
