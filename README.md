@@ -53,6 +53,16 @@ NOTA: leer los comentarios de application.propertis/yml y docker-compose.yml de 
 <p>Ir a los main y meter @EnableEurekaClient</p>
 <p>Ir a los yml y poner eureka:client:service-url:defaultZOne: meter la url del eureka server</p>
 
+###Open Feign
+<p>Crear un modulo nuevo, llamado clients.</p>
+<p>Allí meteremos las clases que relativas al cliente Fraud.</p>
+<p>Para que cada microservicio del proyecto pueda utilizar el Feign Artifact, usaremos @FeignClient </p>
+<p>Ir al pom principal, y dentro de dependencies, meter open feign</p>
+<p>Programar la interficie con @FeignClient</p>
+<p>Metemos el modulo cients que hemos creado como dependencia en los microservicios</p>
+<p></p>
+<p></p>
+<p></p>
 # Documentacion
 
 SIEMPRE UTILIZAR OPTIONAL EN LOS SERVICIOS, PORQUE LOS NULOS DAN POR SACO
