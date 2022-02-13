@@ -35,13 +35,23 @@ Cambiar el puerto, ya que customer ya escucha el 8080.
 Crear el application.properties. NOTA: me imagino que en algun momento los puertos se meteran a 0 y se asignaran cuando arranque la aplicacion.
 
 
-
-
 ### Segunda base de datos
 En una arquitectura de microservicios, queremos una base de datos para cada microservicio.
 Pero meto cada base de datos en un contenedor distino, me voy a quedar sin RAM en nada.
 Por lo tanto, en el mismo contenedor de Postgres metere otra BBDD, en lugar de 2 contenedores 2 bases de datos
 NOTA: leer los comentarios de application.propertis/yml y docker-compose.yml de Fraud microservice
+
+###Eureka
+<p>Soluciona la deteccion de puertos. Un cliente Eureka es un microservicio.</p>
+<p>Service discovery: the process of automatically detecting devices and services on a network.</p>
+<p>Los clientes Eureka o microservicios, se registran en el Servidor Eureka, le preguntan y él les conecta con los demás microservcios.</p>
+<p>Copiar la dependencia de Spring Cloud en el POM.XML principal, en dependencymanagement.</p>
+<p>La dependencia es esta en el pom hijo: spring-cloud-starter-eureka-server, en el video la tiene mal porque pone netflix-eureka y creo que ya no está hoy en día.</p>
+<p>Meter en al application.properties lo necesario para que sea un server.</p>
+<p>Ir a los microservicios y declararlos como clientes.</p>
+<p>Para hacerlo, como en el modulo de eureka le metimos la dependencia de server, a los microservicios les meteremos la de client.</p>
+<p>Ir a los main y meter @EnableEurekaClient</p>
+<p>Ir a los yml y poner eureka:client:service-url:defaultZOne: meter la url del eureka server</p>
 
 # Documentacion
 
