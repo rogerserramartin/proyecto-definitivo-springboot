@@ -1,6 +1,6 @@
 package com.rogerserra.fraud.controller;
 
-import com.rogerserra.fraud.response.FraudCheckResponse;
+import com.rogerserra.clients.fraud.response.FraudCheckResponse;
 import com.rogerserra.fraud.service.FraudCheckService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

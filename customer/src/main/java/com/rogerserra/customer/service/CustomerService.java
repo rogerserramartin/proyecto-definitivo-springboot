@@ -1,11 +1,15 @@
 package com.rogerserra.customer.service;
 
+import com.rogerserra.clients.fraud.FraudClient;
+import com.rogerserra.clients.fraud.response.FraudCheckResponse;
 import com.rogerserra.customer.model.Customer;
 import com.rogerserra.customer.repository.CustomerRepository;
 import com.rogerserra.customer.request.CustomerRegistrationRequest;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,8 +19,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 
 @Slf4j
 @Service
-public record CustomerService(CustomerRepository customerRepository) implements CustomerDAO{
+@AllArgsConstructor
+public class CustomerService implements CustomerDAO{
 
+    private final CustomerRepository customerRepository;
+    private final RestTemplate restTemplate;
+    private final FraudClient fraudClient;
     @Override
     public void registerCustomer(CustomerRegistrationRequest customerRegistrationRequest) {
         Customer customer = Customer.builder() // el id es autogenerado
@@ -28,8 +36,10 @@ public record CustomerService(CustomerRepository customerRepository) implements 
         // todo: check if email not taken
         // todo: check if fraudster
 
-        customerRepository.save(customer);
+        customerRepository.saveAndFlush(customer);
         // todo: send notification
+        FraudCheckResponse fraudCheckResponse =
+                fraudClient.isFraudster(customer.getId());
     }
 
     @Override

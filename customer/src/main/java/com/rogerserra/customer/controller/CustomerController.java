@@ -4,6 +4,7 @@ import com.rogerserra.customer.model.Customer;
 import com.rogerserra.customer.request.CustomerRegistrationRequest;
 import com.rogerserra.customer.service.CustomerService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +19,14 @@ records returned from a remote service call, records read from a CSV file, or si
 @Slf4j
 @RestController
 @RequestMapping("api/v1/customers")
-public record CustomerController(CustomerService customerService) {
+public class CustomerController {
+
+    CustomerService customerService;
+
+    @Autowired
+    public CustomerController(CustomerService customerService) {
+        this.customerService = customerService;
+    }
 
     @GetMapping // to be used as a RESTful endpoint, we need this annotation
     public List<Customer> getCustomers(){
@@ -26,17 +34,17 @@ public record CustomerController(CustomerService customerService) {
     }
 
     @GetMapping(path = "/lastname/{customersLastName}") // to be used as a RESTful endpoint, we need this annotation
-    public List<Customer> getCustomersByLastName(@Param("customersLastName") String customersLastName){
+    public List<Customer> getCustomersByLastName(@PathVariable("customersLastName") String customersLastName){
         return customerService.getCustomersByLastName(customersLastName);
     }
 
     @GetMapping(path = "/id/{customerId}")
-    public Customer getCustomerById(@Param("customerId") Integer customerId){
+    public Customer getCustomerById(@PathVariable("customerId") Integer customerId){
         return customerService.getCustomerById(customerId);
     }
 
     @GetMapping(path = "/email/{customerEmail}")
-    public Customer getCustomerByEmail(@Param("customerEmail") String customerEmail){
+    public Customer getCustomerByEmail(@PathVariable("customerEmail") String customerEmail){
         return customerService.getCustomerByEmail(customerEmail);
     }
 
